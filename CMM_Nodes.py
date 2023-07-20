@@ -8,31 +8,13 @@ Created on Thu Jul 20 07:50:59 2023
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import os
 import streamlit as st
-import plotly.graph_objects as go
 import pyperclip
 
 def funcAsphere(x,y,RoC,conic):
     R = np.sqrt(x**2+y**2)
     asphereZ = R**2 / ( RoC * ( 1 + np.sqrt( 1 - (1+conic) * (R/RoC)**2  ) ) ) 
     return asphereZ  
-
-def plotly_function(x,y,title):
-    fsize = 18
-    
-    fig=go.Figure()
-    fig = fig.add_trace(go.Scatter(x=x,y=y,mode = 'markers'))
-    fig.update_layout(title_text=title, title_x=0.5,title_font_size=22)
-    fig.update_layout(xaxis = dict(tickfont = dict(size=fsize)))
-    fig.update_xaxes(title_font_size=fsize)
-    fig.update_layout(yaxis = dict(tickfont = dict(size=fsize)))
-    fig.update_yaxes(title_font_size=fsize)
-    fig.update_layout(width=1000, height=1000)
-    fig = fig.update_xaxes(title_text = 'X-coordinates')
-    fig = fig.update_yaxes(title_text = 'Y-coordinates')
-    fig.update_layout(legend = dict(font = dict(size = fsize, color = "black")))
-    st.plotly_chart(fig,use_container_width=False)
     
 def PlotContour(x,y,z,title):
 
@@ -47,26 +29,6 @@ def PlotContour(x,y,z,title):
     plt.tight_layout()
     st.pyplot(plt)  
     
-def PlotContour2(x, y, z, title):
-    # Create the contour plot
-    fig = go.Figure()
-
-    # Add the contour plot
-    fig.add_trace(go.Contour(x=x, y=y, z=z, colorscale='Jet', colorbar=dict(title='Z values')))
-
-    # Add black dots at each data point
-    fig.add_trace(go.Scatter(x=x, y=y, mode='markers', marker=dict(size=3, color='black')))
-
-    # Customize the layout
-    fig.update_layout(title=title, xaxis_title='x [m]', yaxis_title='y [m]',
-                      showlegend=False)  # Hide legend for the black dots
-
-    # Show the plot
-    st.plotly_chart(fig, use_container_width=True)
-
-    # Show the plot
-    st.plotly_chart(fig, use_container_width=True)    
-
 def main():
     
     with st.sidebar:
