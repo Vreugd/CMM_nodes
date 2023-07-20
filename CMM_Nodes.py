@@ -38,12 +38,12 @@ def main():
         
         RoC = st.number_input('Radius of Curvature [meters]:',value = -4.19818, format='%.5f', step = 0.001)
         conic = st.number_input('conical constant [-]:',value = -3.604, format='%.4f', step = 0.001)
-        Rout = st.number_input('Outer radius mirror [m]:',value = 0.302, format='%.3f', step = 0.001)
+        Rout = st.number_input('Outer radius mirror [meters]:',value = 0.302, format='%.3f', step = 0.001)
         n_rings = st.number_input('number of rings [-]:',value = 40, step=1,max_value=70)
         
         pitch = Rout/n_rings
         
-        st.write(f'the pitch is {1000*pitch:2f} [mm]')
+        st.write(f'pitch = {1000*pitch:2f} [mm]')
         
         r = 0
         x = np.array([])
@@ -77,22 +77,23 @@ def main():
         st.write(f'{len(x)} nodes')
         
     #plotly_function(x, y, 'CMM nodes')
-    PlotContour(x, y, Z, f'{len(x)} datapoints, pitch is {1000*pitch:.2f} [mm]\n RoC = {RoC}, kappa = {conic}, max Radius = {Rout}')
+    PlotContour(x, y, Z, f'{len(x)} datapoints, pitch = {1000*pitch:.2f} [mm]\n RoC = {RoC}, kappa = {conic}, max Radius = {Rout}')
 
 
     # Display the array using Streamlit with the header
-    with st.expander('data points', expanded=False): 
-        df = pd.DataFrame(my_array, columns=['x', 'y', 'z','e1','e2','e3'])
+    with st.expander('Data Points', expanded=False): 
+        df = pd.DataFrame(my_array, columns=['x [mm]', 'y [mm]', 'z [mm]','e1','e2','e3'])
         st.table(df)
     
-    csv_content = io.StringIO()
-    np.savetxt(csv_content, my_array, delimiter=',', fmt='%.8f')
-    csv_content.seek(0)
-    bytes_data = io.BytesIO(csv_content.getvalue().encode())
+    tsv_content = io.StringIO()
+    np.savetxt(tsv_content, my_array, delimiter='\t', fmt='%.8f')  # Use "\t" for tab-separated values
+    tsv_content.seek(0)
+    
+    bytes_data = io.BytesIO(tsv_content.getvalue().encode())
     st.download_button(
-           label="Download CSV File",
+           label="Download Data in .txt File Format",
            data=bytes_data,
-           file_name=f'data_{len(x)}_nodes.csv',
+           file_name=f'CMM_input_data_{len(x)}_nodes.txt',
            mime="text/csv"
        )
 
