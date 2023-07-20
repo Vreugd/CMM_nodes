@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 import pyperclip
+import clipboard
 
 def funcAsphere(x,y,RoC,conic):
     R = np.sqrt(x**2+y**2)
@@ -89,15 +90,13 @@ def main():
 
     # Add a button to save the array to the clipboard
     if st.button("Copy data points to Clipboard"):
-        copy_array_to_clipboard(df)
+        copy_array_to_clipboard(my_array)
         st.write("CMM input data is copied to the clipboard.")
 
-def copy_array_to_clipboard(df):
-    # Convert the DataFrame to a string representation (tab-separated values)
-    array_str = df.to_csv(index=False, sep='\t')
-
-    # Copy the array content to the clipboard
-    pyperclip.copy(array_str)
+def copy_array_to_clipboard(data_to_copy):
+    array_string = np.array2string(data_to_copy, max_line_width=np.inf, threshold=np.inf)
+    pyperclip.copy(array_string)
+    st.write("Data copied to clipboard!")
 
 if __name__ == "__main__":
     main()
