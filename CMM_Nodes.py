@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 import pyperclip
+import io
 
 def funcAsphere(x,y,RoC,conic):
     R = np.sqrt(x**2+y**2)
@@ -38,7 +39,7 @@ def main():
         RoC = st.number_input('Radius of Curvature [meters]:',value = -4.19818, format='%.5f', step = 0.001)
         conic = st.number_input('conical constant [-]:',value = -3.604, format='%.4f', step = 0.001)
         Rout = st.number_input('Outer radius mirror [mm]:',value = 0.302, format='%.3f', step = 0.001)
-        n_rings = st.number_input('number of rings [-]:',value = 40, step=1,max_value=70)
+        n_rings = st.number_input('number of rings [-]:',value = 2, step=1,max_value=70)
         
         pitch = Rout/n_rings
         
@@ -73,10 +74,7 @@ def main():
         
         my_array = np.array([1000*x,1000*y,1000*Z,Z1X,Z1Y,Z1Z]).T
         
-        
-        
         st.write(f'{len(x)} nodes')
-        
         
     #plotly_function(x, y, 'CMM nodes')
     PlotContour(x, y, Z, f'{len(x)} datapoints, pitch is {1000*pitch:.2f} [mm]\n RoC = {RoC}, kappa = {conic}, max Radius = {Rout}')
@@ -86,16 +84,17 @@ def main():
     with st.expander('data points', expanded=False): 
         df = pd.DataFrame(my_array, columns=['x', 'y', 'z','e1','e2','e3'])
         st.table(df)
-
-    # Add a button to save the array to the clipboard
-    if st.button("Copy data points to Clipboard"):
-        copy_array_to_clipboard(my_array)
-        st.write("CMM input data is copied to the clipboard.")
-
-def copy_array_to_clipboard(data_to_copy):
-    array_string = np.array2string(data_to_copy, max_line_width=np.inf, threshold=np.inf)
-    pyperclip.copy(array_string)
-    st.write("Data copied to clipboard!")
+    
+    csv_content = io.StringIO()
+    np.savetxt(csv_content, my_array, delimiter=',', fmt='%.8f')
+    csv_content.seek(0)
+    bytes_data = io.BytesIO(csv_content.getvalue().encode())
+    st.download_button(
+           label="Download CSV File",
+           data=bytes_data,
+           file_name=f'data_{len(x)}_nodes.csv',
+           mime="text/csv"
+       )
 
 if __name__ == "__main__":
     main()
