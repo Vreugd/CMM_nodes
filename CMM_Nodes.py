@@ -75,7 +75,7 @@ def main():
         
         
         
-        st.write(f'the number of nodes = {len(x)}')
+        st.write(f'{len(x)} nodes')
         
         
     #plotly_function(x, y, 'CMM nodes')
