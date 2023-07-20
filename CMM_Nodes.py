@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 import pyperclip
-import clipboard
 
 def funcAsphere(x,y,RoC,conic):
     R = np.sqrt(x**2+y**2)
