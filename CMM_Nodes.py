@@ -77,7 +77,7 @@ def main():
         st.write(f'{len(x)} nodes')
         
     #plotly_function(x, y, 'CMM nodes')
-    PlotContour(x, y, Z, f'{len(x)} datapoints, pitch = {1000*pitch:.2f} [mm]\n RoC = {RoC}, kappa = {conic}, max Radius = {Rout}')
+    PlotContour(x, y, Z, f'{len(x)} datapoints, pitch = {1000*pitch:.2f} [mm]\n RoC = {RoC} [m], kappa = {conic}, max Radius = {Rout} [m]')
 
 
     # Display the array using Streamlit with the header
