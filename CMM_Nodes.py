@@ -38,8 +38,8 @@ def main():
         
         RoC = st.number_input('Radius of Curvature [meters]:',value = -4.19818, format='%.5f', step = 0.001)
         conic = st.number_input('conical constant [-]:',value = -3.604, format='%.4f', step = 0.001)
-        Rout = st.number_input('Outer radius mirror [mm]:',value = 0.302, format='%.3f', step = 0.001)
-        n_rings = st.number_input('number of rings [-]:',value = 2, step=1,max_value=70)
+        Rout = st.number_input('Outer radius mirror [m]:',value = 0.302, format='%.3f', step = 0.001)
+        n_rings = st.number_input('number of rings [-]:',value = 40, step=1,max_value=70)
         
         pitch = Rout/n_rings
         
