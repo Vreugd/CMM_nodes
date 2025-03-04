@@ -59,7 +59,7 @@ def main():
                 y = np.append(y,r*np.sin(phi))
                 
         R = np.sqrt(x**2 + y**2)
-        Z = funcAsphere(x, y, RoC, conic)
+        Z = funcAsphere(x, y, RoC, conic, offset)
         
         factor = -1
         #factors = 1
