@@ -12,9 +12,9 @@ import streamlit as st
 import pyperclip
 import io
 
-def funcAsphere(x,y,RoC,conic):
+def funcAsphere(x,y,RoC,conic,offset):
     R = np.sqrt(x**2+y**2)
-    asphereZ = R**2 / ( RoC * ( 1 + np.sqrt( 1 - (1+conic) * (R/RoC)**2  ) ) ) 
+    asphereZ = R**2 / ( RoC * ( 1 + np.sqrt( 1 - (1+conic) * (R/RoC)**2  ) ) ) + offset
     return asphereZ  
     
 def PlotContour(x,y,z,title):
